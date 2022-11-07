@@ -54,7 +54,7 @@ import FirebaseCrashlytics
 public let logger: Logger = {
     var logger = Logger(label: Bundle.main.bundleIdentifier ?? "AppLogger") {
         MultiplexLogHandler([
-            ALTENLoggerConsole.standardOutput(label: $0)
+            ALTENConsoleLogHandler.standardOutput(label: $0)
         ])
     }
     logger.logLevel = .trace

@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "ALTENLoggerCore",
+        "repositoryURL": "https://github.com/SDOSLabs/ALTENLoggerCore.git",
+        "state": {
+          "branch": null,
+          "revision": "118ee954a43165790d0a74ed169249339e4ccbbe",
+          "version": "1.0.0"
+        }
+      },
+      {
+        "package": "swift-log",
+        "repositoryURL": "https://github.com/apple/swift-log.git",
+        "state": {
+          "branch": null,
+          "revision": "6fe203dc33195667ce1759bf0182975e4653ba1c",
+          "version": "1.4.4"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

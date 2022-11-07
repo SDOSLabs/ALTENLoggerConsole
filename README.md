@@ -7,7 +7,7 @@
     - [Ejemplos de uso](#ejemplos-de-uso)
 
 # ALTENLoggerConsole
-- Changelog: https://github.com/SDOSLabs/ALTENLogger/blob/main/CHANGELOG.md
+- Changelog: https://github.com/SDOSLabs/ALTENLoggerConsole/blob/main/CHANGELOG.md
 
 ## Introducción
 `ALTENLoggerConsole` es una librería que se apoya en la librería `Logging` proporcionada por Apple en el [siguiente enlace](https://github.com/apple/swift-log.git). La librería `Logging` permite la creación de `Loggers` para personalizar la salida de los logs.

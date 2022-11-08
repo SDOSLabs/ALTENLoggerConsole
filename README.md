@@ -49,7 +49,6 @@ De forma recomendada se puede añadir un fichero al proyecto con la siguiente im
 import Foundation
 import Logging
 import ALTENLoggerConsole
-import FirebaseCrashlytics
 
 public let logger: Logger = {
     var logger = Logger(label: Bundle.main.bundleIdentifier ?? "AppLogger") {

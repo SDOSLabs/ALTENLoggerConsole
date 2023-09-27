@@ -12,11 +12,17 @@ import OSLog
 /// Logger que devuelve la salida por consola
 public struct ALTENConsoleLogHandler: LogHandler {
     
-    public static func standard(label: String) -> ALTENConsoleLogHandler {
-        return ALTENConsoleLogHandler(label: label)
+    public static func standard(label: String, category: String = "General") -> ALTENConsoleLogHandler {
+        return ALTENConsoleLogHandler(label: label, category: category)
     }
     
     private let label: String
+    
+    private let dateFormat: DateFormatter = {
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = "y-MM-dd HH:mm:ss.SSSS"
+        return dateFormat
+    }()
     
     /// Nivel de log a partir del cual mostrará la información
     public var logLevel: Logging.Logger.Level = .info
@@ -41,9 +47,9 @@ public struct ALTENConsoleLogHandler: LogHandler {
     }
 
     // internal for testing only
-    internal init(label: String) {
+    internal init(label: String, category: String) {
         self.label = label
-        self.logger = Logger(subsystem: label, category: "General")
+        self.logger = Logger(subsystem: label, category: category)
     }
 
     public func log(level: Logging.Logger.Level,
@@ -57,8 +63,7 @@ public struct ALTENConsoleLogHandler: LogHandler {
             ? self.prettyMetadata
             : self.prettify(self.metadata.merging(metadata!, uniquingKeysWith: { _, new in new }))
         
-        let result = "[\(level.rawValue.uppercased()) \(self.label)] [\(file.split(separator: "/").last ?? "\(file)") ➝ \(function) ➝ L:\(line)] : \(message)\(prettyMetadata.map { " - [\($0)]" } ?? "")"
-        
+        let result = "\(self.timestamp()) [\(level.rawValue.uppercased()) \(self.label)] [\(file.split(separator: "/").last ?? "\(file)") ➝ \(function) ➝ L:\(line)] : \(message)\(prettyMetadata.map { " - [\($0)]" } ?? "")"
         switch level {
         case .trace:
             logger.trace("\(level.color, privacy: .public) \(result, privacy: .public)")
@@ -84,15 +89,7 @@ public struct ALTENConsoleLogHandler: LogHandler {
     }
 
     private func timestamp() -> String {
-        var buffer = [Int8](repeating: 0, count: 255)
-        var timestamp = time(nil)
-        let localTime = localtime(&timestamp)
-        strftime(&buffer, buffer.count, "%Y-%m-%dT%H:%M:%S%z", localTime)
-        return buffer.withUnsafeBufferPointer {
-            $0.withMemoryRebound(to: CChar.self) {
-                String(cString: $0.baseAddress!)
-            }
-        }
+        dateFormat.string(from: Date())
     }
 }
 

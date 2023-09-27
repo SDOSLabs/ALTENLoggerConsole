@@ -6,28 +6,23 @@
 
 import Foundation
 import Logging
-import Darwin
 import ALTENLoggerCore
+import OSLog
 
 /// Logger que devuelve la salida por consola
 public struct ALTENConsoleLogHandler: LogHandler {
-    /// Factory that makes a `ALTENConsoleLogHandler` to directs its output to `stdout`
-    public static func standardOutput(label: String) -> ALTENConsoleLogHandler {
-        return ALTENConsoleLogHandler(label: label, stream: StdioOutputStream.stdout)
+    
+    public static func standard(label: String) -> ALTENConsoleLogHandler {
+        return ALTENConsoleLogHandler(label: label)
     }
-
-    /// Factory that makes a `ALTENConsoleLogHandler` to directs its output to `stderr`
-    public static func standardError(label: String) -> ALTENConsoleLogHandler {
-        return ALTENConsoleLogHandler(label: label, stream: StdioOutputStream.stderr)
-    }
-
-    private let stream: TextOutputStream
+    
     private let label: String
     
     /// Nivel de log a partir del cual mostrará la información
-    public var logLevel: Logger.Level = .info
+    public var logLevel: Logging.Logger.Level = .info
 
     private var prettyMetadata: String?
+    private var logger: os.Logger
     
     /// Metadatos globales del log que se incluirán en cada llamada al log
     public var metadata = Logger.Metadata() {
@@ -36,7 +31,7 @@ public struct ALTENConsoleLogHandler: LogHandler {
         }
     }
 
-    public subscript(metadataKey metadataKey: String) -> Logger.Metadata.Value? {
+    public subscript(metadataKey metadataKey: String) -> Logging.Logger.Metadata.Value? {
         get {
             return self.metadata[metadataKey]
         }
@@ -46,14 +41,14 @@ public struct ALTENConsoleLogHandler: LogHandler {
     }
 
     // internal for testing only
-    internal init(label: String, stream: TextOutputStream) {
+    internal init(label: String) {
         self.label = label
-        self.stream = stream
+        self.logger = Logger(subsystem: label, category: "General")
     }
 
-    public func log(level: Logger.Level,
-                    message: Logger.Message,
-                    metadata: Logger.Metadata?,
+    public func log(level: Logging.Logger.Level,
+                    message: Logging.Logger.Message,
+                    metadata: Logging.Logger.Metadata?,
                     source: String,
                     file: String,
                     function: String,
@@ -61,13 +56,28 @@ public struct ALTENConsoleLogHandler: LogHandler {
         let prettyMetadata = metadata?.isEmpty ?? true
             ? self.prettyMetadata
             : self.prettify(self.metadata.merging(metadata!, uniquingKeysWith: { _, new in new }))
-
-        var stream = self.stream
-        let result = "\(self.timestamp()) [\(level.rawValue.uppercased()) \(self.label)] [\(file.split(separator: "/").last ?? "\(file)") ➝ \(function) ➝ L:\(line)] : \(message)\(prettyMetadata.map { " - [\($0)]" } ?? "")"
-        stream.write("\(level.color) \(result)\n")
+        
+        let result = "[\(level.rawValue.uppercased()) \(self.label)] [\(file.split(separator: "/").last ?? "\(file)") ➝ \(function) ➝ L:\(line)] : \(message)\(prettyMetadata.map { " - [\($0)]" } ?? "")"
+        
+        switch level {
+        case .trace:
+            logger.trace("\(level.color, privacy: .public) \(result, privacy: .public)")
+        case .debug:
+            logger.debug("\(level.color, privacy: .public) \(result, privacy: .public)")
+        case .info:
+            logger.info("\(level.color, privacy: .public) \(result, privacy: .public)")
+        case .notice:
+            logger.notice("\(level.color, privacy: .public) \(result, privacy: .public)")
+        case .warning:
+            logger.warning("\(level.color, privacy: .public) \(result, privacy: .public)")
+        case .error:
+            logger.error("\(level.color, privacy: .public) \(result, privacy: .public)")
+        case .critical:
+            logger.critical("\(level.color, privacy: .public) \(result, privacy: .public)")
+        }
     }
 
-    private func prettify(_ metadata: Logger.Metadata) -> String? {
+    private func prettify(_ metadata: Logging.Logger.Metadata) -> String? {
         return !metadata.isEmpty
             ? metadata.lazy.sorted(by: { $0.key < $1.key }).map { "\($0): \"\($1)\"" }.joined(separator: " ")
             : nil

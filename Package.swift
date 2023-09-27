@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "ALTENLoggerConsole",
-    platforms: [.iOS(.v11), .macOS(.v10_12), .tvOS(.v12), .watchOS(.v7)],
+    platforms: [.iOS(.v14), .macOS(.v11), .tvOS(.v14), .watchOS(.v7)],
     products: [
         .library(
             name: "ALTENLoggerConsole",
@@ -19,6 +19,11 @@ let package = Package(
             name: "ALTENLoggerConsole",
             dependencies: [
                 .product(name: "ALTENLoggerCore", package: "ALTENLoggerCore")
+            ]),
+        .testTarget(
+            name: "ALTENLoggerConsoleTests",
+            dependencies: [
+                "ALTENLoggerConsole"
             ])
     ]
 )

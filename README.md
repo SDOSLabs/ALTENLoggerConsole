@@ -25,7 +25,7 @@ https://github.com/SDOSLabs/ALTENLoggerConsole.git
 
 ``` swift
 dependencies: [
-    .package(url: "https://github.com/SDOSLabs/ALTENLoggerConsole.git", .upToNextMajor(from: "1.0.0"))
+    .package(url: "https://github.com/SDOSLabs/ALTENLoggerConsole.git", .upToNextMajor(from: "2.0.0"))
 ]
 ```
 
@@ -53,7 +53,7 @@ import ALTENLoggerConsole
 public let logger: Logger = {
     var logger = Logger(label: Bundle.main.bundleIdentifier ?? "AppLogger") {
         MultiplexLogHandler([
-            ALTENConsoleLogHandler.standardOutput(label: $0)
+            ALTENConsoleLogHandler.standard(label: $0)
         ])
     }
     logger.logLevel = .trace
@@ -77,8 +77,8 @@ public func loadData() async {
 ```
 Salida por consola
 ```
-🟦 2022-02-25T10:12:21+0100 [INFO com.your_bundle] [ListFilmViewModel.swift ➝ loadData() ➝ L:88] : Start
-🟦 2022-02-25T10:12:21+0100 [INFO com.your_bundle] [ListFilmViewModel.swift ➝ loadData() ➝ L:89] : End
+🟦 2023-09-29 10:47:37.7970 [INFO com.your_bundle] [ListFilmViewModel.swift ➝ loadData() ➝ L:88] : Start
+🟦 2023-09-29 10:47:37.7970 [INFO com.your_bundle] [ListFilmViewModel.swift ➝ loadData() ➝ L:89] : End
 ```
 ---
 ``` swift
@@ -90,8 +90,8 @@ public func search(searchTerm: String) async throws -> [FilmBO] {
 ```
 Salida por consola
 ```
-🟩 2022-02-25T10:12:21+0100 [DEBUG com.your_bundle] [ListFilmViewModel.swift ➝ loadData() ➝ L:100] : Start - [searchTerm: "Avengers"]
-🟩 2022-02-25T10:12:21+0100 [DEBUG com.your_bundle] [ListFilmViewModel.swift ➝ loadData() ➝ L:101] : End - [searchTerm: "Avengers"]
+🟩 2023-09-29 10:47:37.7970 [DEBUG com.your_bundle] [ListFilmViewModel.swift ➝ loadData() ➝ L:100] : Start - [searchTerm: "Avengers"]
+🟩 2023-09-29 10:47:37.7970 [DEBUG com.your_bundle] [ListFilmViewModel.swift ➝ loadData() ➝ L:101] : End - [searchTerm: "Avengers"]
 ```
 ---
 ``` swift
@@ -106,8 +106,8 @@ public func save(text: String) {
 ```
 Salida por consola
 ```
-🟦 2022-02-25T10:12:21+0100 [INFO com.your_bundle] [ListFilmViewModel.swift ➝ loadData() ➝ L:132] : Save success
-🟥 2022-02-25T10:12:21+0100 [ERROR com.your_bundle] [ListFilmViewModel.swift ➝ loadData() ➝ L:134] : Error on save
+🟦 2023-09-29 10:47:37.7970 [INFO com.your_bundle] [ListFilmViewModel.swift ➝ loadData() ➝ L:132] : Save success
+🟥 2023-09-29 10:47:37.7970 [ERROR com.your_bundle] [ListFilmViewModel.swift ➝ loadData() ➝ L:134] : Error on save
 ```
 ---
 

@@ -53,7 +53,7 @@ import ALTENLoggerConsole
 public let logger: Logger = {
     var logger = Logger(label: Bundle.main.bundleIdentifier ?? "AppLogger") {
         MultiplexLogHandler([
-            ALTENConsoleLogHandler.standardOutput(label: $0)
+            ALTENConsoleLogHandler.standard(label: $0)
         ])
     }
     logger.logLevel = .trace

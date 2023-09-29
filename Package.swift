@@ -12,7 +12,7 @@ let package = Package(
             targets: ["ALTENLoggerConsole"])
     ],
     dependencies: [
-        .package(url: "https://github.com/SDOSLabs/ALTENLoggerCore.git", .upToNextMajor(from: "1.0.0"))
+        .package(url: "https://github.com/SDOSLabs/ALTENLoggerCore.git", .upToNextMajor(from: "1.1.0"))
     ],
     targets: [
         .target(

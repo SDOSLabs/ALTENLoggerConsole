@@ -25,7 +25,7 @@ https://github.com/SDOSLabs/ALTENLoggerConsole.git
 
 ``` swift
 dependencies: [
-    .package(url: "https://github.com/SDOSLabs/ALTENLoggerConsole.git", .upToNextMajor(from: "1.1.0"))
+    .package(url: "https://github.com/SDOSLabs/ALTENLoggerConsole.git", .upToNextMajor(from: "2.0.0"))
 ]
 ```
 

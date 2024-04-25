@@ -19,7 +19,8 @@ let package = Package(
             name: "ALTENLoggerConsole",
             dependencies: [
                 .product(name: "ALTENLoggerCore", package: "ALTENLoggerCore")
-            ]),
+            ],
+            resources: [.process("PrivacyInfo.xcprivacy")]),
         .testTarget(
             name: "ALTENLoggerConsoleTests",
             dependencies: [
